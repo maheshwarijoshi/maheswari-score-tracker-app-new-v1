@@ -1,0 +1,138 @@
+<div class="container">
+  <div class="row section">
+    <div class="col-md-12">
+      <div class="heading">
+        <h3>NBA Score Tracking App</h3>
+      </div>
+      <form
+        [formGroup]="scoreTrackerFormGroup"
+        (ngSubmit)="submit()"
+        novalidate
+        autocomplete="off"
+      >
+        <div class="mt-4 px-4">
+          <div class="row">
+            <div class="col-md-6 col-sm-6 col-6">
+              <div class="content d-flex">
+                <div class="mr-5">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    formControlName="teamName"
+                    required
+                  >
+                    <option value="" selected hidden>Select...</option>
+                    <option
+                      *ngFor="let teamName of teamsList"
+                      [ngValue]="teamName.id"
+                    >
+                      {{ teamName.full_name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-6 mt-3">
+            <div class="content d-flex">
+              <div class="mr-5">
+                <button
+                  type="submit"
+                  class="btn btn-dark mb-3"
+                  [disabled]="!scoreTrackerFormGroup.valid"
+                >
+                  Track Team
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="text-center" *ngIf="loading">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div class="row section">
+    <div class="col-md-12">
+      <div
+        class="mt-2 card px-4"
+        *ngFor="let team of selectedTeamInfo; let i = index"
+      >
+        <span (click)="removeTeam(i)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-x-circle"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+            />
+            <path
+              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+            />
+          </svg>
+        </span>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content">
+              <h5>
+                {{ team.team_name | titlecase }} ({{ team.team_abbreviation }})
+              </h5>
+              <br />
+              <h6>{{ team.team_conference | titlecase }} conference</h6>
+            </div>
+          </div>
+          <hr />
+          <div class="col-md-12 row">
+            <div class="col-md-7 col-sm-12 col-7">
+              <div class="content">
+                <h6>Results of past 12 days</h6>
+                <div class="row mr-5">
+                  <ng-container
+                    *ngFor="let teamData of team.data; let ind = index"
+                  >
+                    <div
+                      class="dot {{ getResultInfo(teamData, team.team_id) }}"
+                    >
+                      {{ getResultInfo(teamData, team.team_id) }}
+                    </div>
+                  </ng-container>
+                </div>
+                <h6>
+                  Avg points scored:
+                  {{ getAvgPoints(team.data, team.team_id, 'scored') }}
+                </h6>
+                <h6>
+                  Avg points conceded:
+                  {{ getAvgPoints(team.data, team.team_id, 'conceded') }}
+                </h6>
+              </div>
+            </div>
+            <div class="col-md-5 col-sm-12 col-5">
+              <img [src]="team.team_logo" class="logo" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 btn-section">
+            <a
+              routerLink="/results/{{ team.team_id }}"
+              class="btn btn-dark"
+              routerLinkActive="active"
+            >
+              See game results >>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

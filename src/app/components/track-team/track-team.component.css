@@ -1,0 +1,59 @@
+.content img {
+  margin-left: 20px;
+}
+
+.content p {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+}
+.card {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.section {
+  margin-top: 25px;
+}
+
+.heading {
+  text-align: center;
+}
+
+.btn-section {
+  margin-top: 25px;
+}
+
+span {
+  position: absolute;
+  right: 13px;
+  z-index: 999;
+  cursor: pointer;
+  top: 10px;
+}
+
+.logo {
+  max-width: 150px;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  margin-left: 10px;
+  color: #fff;
+}
+
+.W {
+  background-color: green !important;
+  padding: 5px;
+}
+
+.L {
+  background-color: red !important;
+  padding: 8px;
+}

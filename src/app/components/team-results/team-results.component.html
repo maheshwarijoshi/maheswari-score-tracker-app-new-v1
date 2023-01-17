@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row section">
+    <div class="col-md-12">
+      <div class="heading">
+        <h3>NBA Score Tracking App</h3>
+      </div>
+      <div class="mt-2 card px-4">
+        <div class="row">
+          <div class="text-center" *ngIf="hasLoading">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div class="mt-2 card px-4" *ngIf="selectedTeamInfo?.length">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="content">
+                  <h5>
+                    {{ selectedTeam?.team_name | titlecase }}
+                    ({{ selectedTeam?.team_abbreviation }})
+                  </h5>
+                  <br />
+                  <h6>
+                    {{ selectedTeam?.team_conference | titlecase }} conference
+                  </h6>
+                </div>
+              </div>
+              <hr />
+              <div class="col-md-12 row">
+                <div class="col-md-7 col-sm-12 col-7">
+                  <div class="content">
+                    <h6>Scores of past 12 days</h6>
+                    <div class="row mr-5">
+                      <ng-container
+                        *ngFor="let team of selectedTeamInfo; let i = index"
+                      >
+                        <h6>
+                          {{ team.home_team.abbreviation }}
+                          {{ team.home_team_score }} -
+                          {{ team.visitor_team.abbreviation }}
+                          {{ team.visitor_team_score }}
+                        </h6>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center" *ngIf="!selectedTeamInfo?.length">
+            No data
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 p-2 mt-4">
+        <button class="btn btn-dark" routerLink="/">
+          << Back to all team stats
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
