@@ -13,14 +13,6 @@ export class ScoreTrackerService {
   });
   constructor(private readonly http: HttpClient) {}
 
-  createAuthorizationHeader(): HttpHeaders {
-    const headerDict = {
-      'X-RapidAPI-Key': '2QMXSehDLSmshDmRQcKUIAiQjIZAp1UvKUrjsnewgqSP6F5oBX',
-      'X-RapidAPI-Host': 'free-nba.p.rapidapi.com',
-    };
-    return new HttpHeaders(headerDict);
-  }
-
   getTeamsList(): Observable<AllTeamsList> {
     return this.http.get<AllTeamsList>(`${this._apiBaseUrl}teams`, {
       headers: this.createAuthorizationHeader(),
@@ -38,5 +30,13 @@ export class ScoreTrackerService {
         headers: this.createAuthorizationHeader(),
       }
     );
+  }
+
+  createAuthorizationHeader(): HttpHeaders {
+    const headerDict = {
+      'X-RapidAPI-Key': '2QMXSehDLSmshDmRQcKUIAiQjIZAp1UvKUrjsnewgqSP6F5oBX',
+      'X-RapidAPI-Host': 'free-nba.p.rapidapi.com',
+    };
+    return new HttpHeaders(headerDict);
   }
 }
