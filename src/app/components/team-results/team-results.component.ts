@@ -8,6 +8,7 @@ import {
 } from '../../models/score-tracker';
 import { ScoreTrackerService } from '../../services/score-tracker.service';
 import { map } from 'rxjs/operators';
+import { AppConstants } from '../../constants/app-constants';
 
 @Component({
   selector: 'app-team-results',
@@ -44,15 +45,19 @@ export class TeamResultsComponent implements OnInit, OnDestroy {
           this.selectedTeamInfo = response.data;
           this.hasLoading = false;
           this.selectedTeam = {
-            team_name: this.setTeamData(teamInfo[0], 'full_name', payLoad),
+            team_name: this.setTeamData(
+              teamInfo[0],
+              AppConstants.FULL_NAME,
+              payLoad
+            ),
             team_abbreviation: this.setTeamData(
               teamInfo[0],
-              'abbreviation',
+              AppConstants.ABBREVIATION,
               payLoad
             ),
             team_conference: this.setTeamData(
               teamInfo[0],
-              'conference',
+              AppConstants.CONFERENCE,
               payLoad
             ),
           };

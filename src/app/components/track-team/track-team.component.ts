@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AppConstants } from '../../constants/app-constants';
 import {
   TeamsList,
   AllTeamsList,
@@ -19,7 +20,7 @@ export class TrackTeamComponent implements OnInit, OnDestroy {
   scoreTrackerFormGroup: FormGroup = new FormGroup({});
   teamsList: TeamsList[] = [];
   selectedTeamInfo: SelectedTeamInfo[] = [];
-  teamLogoUrl: string = 'https://interstate21.com/nba-logos/';
+  teamLogoUrl: string = AppConstants.LOGO_URL;
   loading: boolean = false;
   subscription: Subscription = new Subscription();
 
@@ -83,26 +84,32 @@ export class TrackTeamComponent implements OnInit, OnDestroy {
               team_logo:
                 `${this.teamLogoUrl}${this.setTeamData(
                   teamInfo[0],
-                  'abbreviation',
+                  AppConstants.ABBREVIATION,
                   teamName
-                )}.png` || '',
-              team_name: this.setTeamData(teamInfo[0], 'full_name', teamName),
+                )}${AppConstants.FILE_TYPE}` || '',
+              team_name: this.setTeamData(
+                teamInfo[0],
+                AppConstants.FULL_NAME,
+                teamName
+              ),
               team_abbreviation: this.setTeamData(
                 teamInfo[0],
-                'abbreviation',
+                AppConstants.ABBREVIATION,
                 teamName
               ),
               team_conference: this.setTeamData(
                 teamInfo[0],
-                'conference',
+                AppConstants.CONFERENCE,
                 teamName
               ),
-              team_id: Number(this.setTeamData(teamInfo[0], 'id', teamName)),
+              team_id: Number(
+                this.setTeamData(teamInfo[0], AppConstants.ID, teamName)
+              ),
             };
             this.selectedTeamInfo.push(selectedTeam);
             this.loading = false;
             localStorage.setItem(
-              'scoreTrackerData',
+              AppConstants.SCORE_TRACKER_DATA,
               JSON.stringify(this.selectedTeamInfo)
             );
           }
@@ -114,14 +121,14 @@ export class TrackTeamComponent implements OnInit, OnDestroy {
 
   getInititalData(): void {
     this.selectedTeamInfo = JSON.parse(
-      localStorage.getItem('scoreTrackerData')!
+      localStorage.getItem(AppConstants.SCORE_TRACKER_DATA)!
     );
   }
 
   removeTeam(indx: number): void {
     this.selectedTeamInfo.splice(indx, 1);
     localStorage.setItem(
-      'scoreTrackerData',
+      AppConstants.SCORE_TRACKER_DATA,
       JSON.stringify(this.selectedTeamInfo)
     );
   }
@@ -142,16 +149,20 @@ export class TrackTeamComponent implements OnInit, OnDestroy {
     }
     const averagePoints: number = totalPoints / numberOfGames;
     const averagePointsConceded: number = totalConcededPoints / numberOfGames;
-    return type === 'scored'
+    return type === AppConstants.SCORED
       ? averagePoints.toFixed(0)
       : averagePointsConceded.toFixed(0);
   }
 
   getResultInfo(teamData: SelctedTeam, teamId: number): string {
     if (teamId === teamData.home_team.id) {
-      return teamData.home_team_score > teamData.visitor_team_score ? 'W' : 'L';
+      return teamData.home_team_score > teamData.visitor_team_score
+        ? AppConstants.WIN
+        : AppConstants.LOSS;
     } else if (teamId === teamData.visitor_team.id) {
-      return teamData.visitor_team_score > teamData.home_team_score ? 'W' : 'L';
+      return teamData.visitor_team_score > teamData.home_team_score
+        ? AppConstants.WIN
+        : AppConstants.LOSS;
     }
   }
 

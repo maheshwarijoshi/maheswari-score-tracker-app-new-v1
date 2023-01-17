@@ -33,10 +33,9 @@ export class ScoreTrackerService {
   }
 
   createAuthorizationHeader(): HttpHeaders {
-    const headerDict = {
+    return new HttpHeaders({
       'X-RapidAPI-Key': '2QMXSehDLSmshDmRQcKUIAiQjIZAp1UvKUrjsnewgqSP6F5oBX',
       'X-RapidAPI-Host': 'free-nba.p.rapidapi.com',
-    };
-    return new HttpHeaders(headerDict);
+    });
   }
 }
